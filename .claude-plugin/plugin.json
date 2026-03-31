@@ -1,0 +1,6 @@
+{
+  "name": "glm-usage-hub",
+  "description": "Monitor GLM Plan usage - terminal dashboard + HUD status bar integration for Claude Code",
+  "version": "1.0.0",
+  "author": { "name": "edy" }
+}

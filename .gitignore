@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.omc/
+.DS_Store
+*.tsbuildinfo
+
+# Old TypeScript source (merged into skills/usage-skill/scripts/dashboard.mjs)
+src/
+bin/
+package.json
+package-lock.json
+tsconfig.json
