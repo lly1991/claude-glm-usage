@@ -11,8 +11,22 @@ Monitor your GLM Plan usage directly in Claude Code with a terminal dashboard an
 
 ## Install
 
+Add this repo as a marketplace in `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "claude-glm-usage": {
+      "source": { "source": "github", "repo": "lly1991/claude-glm-usage" }
+    }
+  }
+}
+```
+
+Then install:
+
 ```bash
-claude plugin install lly1991/claude-glm-usage
+claude plugin install glm-usage-hub@claude-glm-usage
 ```
 
 ## Requirements
@@ -38,10 +52,10 @@ Type in Claude Code:
 
 ```bash
 # Terminal dashboard
-node skills/usage-skill/scripts/dashboard.mjs
+node plugins/glm-usage-hub/skills/usage-skill/scripts/dashboard.mjs
 
 # HUD provider (JSON output for OMC)
-node skills/usage-skill/scripts/hud-provider.mjs
+node plugins/glm-usage-hub/skills/usage-skill/scripts/hud-provider.mjs
 ```
 
 ## OMC HUD Integration
@@ -50,13 +64,13 @@ Add to `~/.claude/settings.json` to display usage in the status bar:
 
 ```json
 {
-  "customRateLimitProviders": [
-    {
-      "name": "glm-usage",
-      "command": "node",
-      "args": ["path/to/claude-glm-usage/skills/usage-skill/scripts/hud-provider.mjs"]
+  "omcHud": {
+    "rateLimitsProvider": {
+      "type": "custom",
+      "command": "node path/to/claude-glm-usage/plugins/glm-usage-hub/skills/usage-skill/scripts/hud-provider.mjs",
+      "timeoutMs": 5000
     }
-  ]
+  }
 }
 ```
 
@@ -64,16 +78,19 @@ Add to `~/.claude/settings.json` to display usage in the status bar:
 
 ```
 claude-glm-usage/
-├── .claude-plugin/plugin.json     # Plugin metadata
-├── agents/usage-query-agent.md    # Agent definition
-├── commands/usage.md              # /usage slash command
-├── skills/usage-skill/
-│   ├── SKILL.md                   # Skill definition
-│   └── scripts/
-│       ├── dashboard.mjs          # Terminal dashboard (zero deps)
-│       └── hud-provider.mjs       # HUD JSON provider
-├── scripts/hud-provider.mjs       # Standalone HUD provider
-└── README.md
+├── plugins/
+│   └── glm-usage-hub/
+│       ├── .claude-plugin/plugin.json
+│       ├── agents/usage-query-agent.md
+│       ├── commands/usage.md
+│       ├── skills/usage-skill/
+│       │   ├── SKILL.md
+│       │   └── scripts/
+│       │       ├── dashboard.mjs      # Terminal dashboard (zero deps)
+│       │       └── hud-provider.mjs   # HUD JSON provider
+│       └── scripts/hud-provider.mjs   # Standalone HUD provider
+├── README.md
+└── LICENSE
 ```
 
 ## Supported Platforms
